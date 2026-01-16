@@ -1,0 +1,36 @@
+{
+  "name": "alexyabot",
+  "version": "1.0.0",
+  "description": "A discord bot to communicate with Alexya.ia",
+  "keywords": [
+    "discordBot"
+  ],
+  "homepage": "https://github.com/v3nel/alexyaBot#readme",
+  "bugs": {
+    "url": "https://github.com/v3nel/alexyaBot/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/v3nel/alexyaBot.git"
+  },
+  "license": "ISC",
+  "author": "venel",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "register": "ts-node src/deploy-commands.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "discord.js": "^14.25.1",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.8",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

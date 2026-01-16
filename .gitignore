@@ -1,0 +1,33 @@
+# Dépendances
+node_modules/
+package-lock.json
+
+# TypeScript
+dist/
+*.tsbuildinfo
+
+# Variables d'environnement
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Système d'exploitation
+.DS_Store
+Thumbs.db
+
+# Divers
+.cache/
+temp/
+tmp/
