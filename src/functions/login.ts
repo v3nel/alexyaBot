@@ -61,17 +61,17 @@ export async function login(email:string, password:string, interaction: ChatInpu
         if (err instanceof APIError) {
             errorEmbed = createErrorEmbed(
                 "Erreur d'API",
-                "La clé d'API n'est pas valide"
+                "La clé d'API n'est pas valide\n Si le problème persiste, contactez @<580447236702470176>"
             )
         } else if (err instanceof AuthenticationError) {
             errorEmbed = createErrorEmbed(
                 "Erreur de connexion",
-                "la combinaison email/mot de passe n'est pas valide. Veuillez réessayer avec une autre combinaison"
+                "la combinaison email/mot de passe n'est pas valide. Veuillez réessayer avec une autre combinaison\n Si le problème persiste, contactez @<580447236702470176>"
             )
         } else {
             errorEmbed = createErrorEmbed(
                 "Erreur Inconnue",
-                `Une erreur inconnue a eu lieu veuillez voir la console ou ci-après: ${err}`
+                `Une erreur inconnue a eu lieu veuillez voir la console ou ci-après: ${err}\n Si le problème persiste, contactez @<580447236702470176>`
             )
         };
 

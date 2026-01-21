@@ -42,7 +42,7 @@ export async function refresh(interaction: ChatInputCommandInteraction) {
         console.error('Error reading user.json:', err);
         const errorEmbed = createErrorEmbed(
             "Erreur de rafraishissement du token",
-            `Il y a eu une erreur lors du raffraishissement du token : ${err}`
+            `Il y a eu une erreur lors du raffraishissement du token : ${err}\n Si le problème persiste, contactez @<580447236702470176>`
         )
         return await interaction.reply({embeds: [errorEmbed]})
     }

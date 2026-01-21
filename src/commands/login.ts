@@ -51,7 +51,7 @@ module.exports = {
             } else {
                 errorEmbed = createErrorEmbed(
                     "Erreur Inconnue",
-                    `Une erreur inconnue a eu lieu veuillez voir la console ou ci-après: ${err}`
+                    `Une erreur inconnue a eu lieu veuillez voir la console ou ci-après: ${err}\n Si le problème persiste, contactez @<580447236702470176>`
                 )
             };
 
