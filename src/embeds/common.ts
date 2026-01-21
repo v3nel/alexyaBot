@@ -24,9 +24,10 @@ export function createWarningEmbed(title: string, description: string): EmbedBui
     .setTimestamp();
 }
 
-export function createLoadingEmbed(message: string): EmbedBuilder {
+export function createLoadingEmbed(title: string, message: string): EmbedBuilder {
   return new EmbedBuilder()
     .setColor('#5865F2')
+    .setTitle(title)
     .setDescription(`⏳ ${message}`)
     .setTimestamp();
 }
