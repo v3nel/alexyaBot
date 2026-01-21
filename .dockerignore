@@ -1,0 +1,10 @@
+node_modules
+dist
+.env
+.env.local
+.DS_Store
+.git
+npm-debug.log
+Dockerfile
+README.md
+src/**/node_modules
