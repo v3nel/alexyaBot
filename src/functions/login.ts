@@ -37,14 +37,15 @@ export async function login(email:string, password:string, interaction: ChatInpu
         );
 
         const response = await request.json();
+        console.log(response)
 
         if (request.status === 200) {
             await fs.writeFile(
-                "./user/credentials.json",
+                "./src/user/credentials.json",
                 JSON.stringify({ email, password }, null, 2)
             );
             await fs.writeFile(
-                "./user/user.json",
+                "./src/user/user.json",
                 JSON.stringify(response, null, 2)
             );
             return response.user.email
