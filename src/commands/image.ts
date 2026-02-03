@@ -6,14 +6,10 @@ import { IntegerSchema } from "zod/v4/core/json-schema.cjs";
 import { generatedImageEmbed } from "../embeds/image";
 import getPromptandAttachements from "../functions/image/inputs/getPromptandAttachment";
 import checkChannel from "../functions/checkChannel";
-import { processAttachment } from "../functions/image/scripts/processAttachment";
-
-class FormatError extends Error {
-    constructor(message: string) {
-        super(message)
-        this.name="FormatError"
-    }
-}
+import { processAttachment } from "../functions/image/processAttachment";
+import { parseRes } from "../functions/image/parseRes";
+import { createImage } from "../functions/image/createImage";
+import { createType } from "../types/createType";
 
 type UploadResponse = { 
     success: boolean, 
@@ -75,9 +71,12 @@ module.exports = {
     
     async execute(interaction: ChatInputCommandInteraction) {
         const type = interaction.options.getString("type", true);
-        const resolution = interaction.options.getString("resolution");
+        const resolution = interaction.options.getString("resolution", true);
         await interaction.deferReply();
 
+        if (type !== "classic" && type !== "high-quality") return;
+
+        const { width, height } = parseRes(resolution);
         const channel = interaction.channel;
 
         if (!channel || !checkChannel(channel)) return;
@@ -85,17 +84,25 @@ module.exports = {
         const PromptandAttachments = await getPromptandAttachements(channel, interaction.user.id, interaction);
 
         if (!PromptandAttachments) return;
+        
+        let payload: createType = {
+            prompt: PromptandAttachments.message,
+            type: type,
+            height: height,
+            width: width
+        } 
 
-        let attachmentsLinks = [];
+        let attachmentsLinks: string[] = [];
         if (PromptandAttachments.attachments) {
-            PromptandAttachments.attachments.forEach(element => {
-                const link = processAttachment(element.url);
+            PromptandAttachments.attachments.forEach(async element => {
+                const link = await processAttachment(element.url);
+                if (!link) return;
                 attachmentsLinks.push(link)
             });
+            payload.references = attachmentsLinks
         }
-
         
-    
+        const imageRequest = await createImage(payload)
     },
 
     async autocomplete(interaction: AutocompleteInteraction) {

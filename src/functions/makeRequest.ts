@@ -1,9 +1,10 @@
 import fetch from "node-fetch";
+import { createBodyType } from "../types/createBody";
 
 interface makeRequestPayload {
     url: string;
     headers: Record<string, string>;
-    body: Array<string> | Buffer<ArrayBuffer>;
+    body: Array<string> | Buffer<ArrayBuffer> | createBodyType;
     method: "GET" | "POST" | "PATCH"
 }
 
