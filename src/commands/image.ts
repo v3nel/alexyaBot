@@ -5,6 +5,8 @@ import { processAttachment } from "../functions/image/processAttachment.js";
 import { parseRes } from "../functions/image/parseRes.js";
 import { createImage } from "../functions/image/createImage.js";
 import { createType } from "../types/createType.js";
+import { createErrorEmbed, createLoadingEmbed, createSuccessEmbed } from "../embeds/common.js";
+import { createImageEmbed } from "../embeds/image.js";
 
 type UploadResponse = { 
     success: boolean, 
@@ -65,39 +67,60 @@ export default {
         )),
     
     async execute(interaction: ChatInputCommandInteraction) {
-        const type = interaction.options.getString("type", true);
-        const resolution = interaction.options.getString("resolution", true);
-        await interaction.deferReply();
+        try {    
+            const type = interaction.options.getString("type", true);
+            const resolution = interaction.options.getString("resolution", true);
+            let embed;
+            await interaction.deferReply();
 
-        if (type !== "classic" && type !== "high-quality") return;
+            if (type !== "classic" && type !== "high-quality") throw new Error;
 
-        const { width, height } = parseRes(resolution);
-        const channel = interaction.channel;
+            const { width, height } = parseRes(resolution);
+            const channel = interaction.channel;
 
-        if (!channel || !checkChannel(channel)) return;
+            if (!channel || !checkChannel(channel)) throw new Error;
 
-        const PromptandAttachments = await getPromptandAttachements(channel, interaction.user.id, interaction);
+            const PromptandAttachments = await getPromptandAttachements(channel, interaction.user.id, interaction);
 
-        if (!PromptandAttachments) return;
-        
-        let payload: createType = {
-            prompt: PromptandAttachments.message,
-            type: type,
-            height: height,
-            width: width
-        } 
+            if (!PromptandAttachments) throw new Error;
+            
+            let payload: createType = {
+                prompt: PromptandAttachments.message,
+                type: type,
+                height: height,
+                width: width
+            } 
 
-        let attachmentsLinks: string[] = [];
-        if (PromptandAttachments.attachments) {
-            PromptandAttachments.attachments.forEach(async element => {
-                const link = await processAttachment(element.url);
-                if (!link) return;
-                attachmentsLinks.push(link)
-            });
-            payload.references = attachmentsLinks
+            embed = createLoadingEmbed("Envoie de la demande", "Votre demande est en cours de réception par le serveur d'Alexya.ai")
+            await interaction.editReply({embeds: [embed]})
+
+            let attachmentsLinks: string[] = [];
+            if (PromptandAttachments.attachments) {
+                PromptandAttachments.attachments.forEach(async element => {
+                    const link = await processAttachment(element.url);
+                    if (!link) return;
+                    attachmentsLinks.push(link)
+                });
+                payload.references = attachmentsLinks
+            }
+            
+            embed = createLoadingEmbed("Génération de l'image", "Votre image est en cours de génération et va vous etre délivré.")
+            await interaction.editReply({embeds: [embed]})
+            const image = await createImage(payload);
+
+            if (typeof image !== "string") {
+                embed = createErrorEmbed("Erreur", "Il y a eu une erreur lors de la génération de votre image veuillez vous connecter sur Alexya.ai pour voir plus en détail");
+                await interaction.editReply({embeds: [embed]})
+                return
+            }
+
+            embed = createImageEmbed(image, interaction)
+            await interaction.editReply({embeds: [embed]})
+            return
+        } catch(e) {
+            const errorEmbed = createErrorEmbed("Erreur Inconue", `Il y a eu une erreur inconue lors de la génération ${e}`)
+            await interaction.editReply({embeds: [errorEmbed]})
         }
-        
-        const imageRequest = await createImage(payload)
     },
 
     async autocomplete(interaction: AutocompleteInteraction) {

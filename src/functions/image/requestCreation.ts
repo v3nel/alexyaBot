@@ -13,7 +13,7 @@ export default async function requestCreation(payload: createType) {
 
     const Request = await makeRequest({
         url: process.env.ALEXYA_API_URL + "/generate-picture",
-        body: body,
+        body: JSON.stringify(body),
         headers: {
             cookie: cookie
         },

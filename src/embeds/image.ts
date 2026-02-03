@@ -1,6 +1,6 @@
 import {ChatInputCommandInteraction, EmbedBuilder} from "discord.js";
 
-export function generatedImageEmbed(imageUrl: string, interaction: ChatInputCommandInteraction) {
+export function createImageEmbed(imageUrl: string, interaction: ChatInputCommandInteraction) {
     return new EmbedBuilder()
         .setTitle("Génération réussie")
         .setColor("#57F287")

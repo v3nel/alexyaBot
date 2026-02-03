@@ -1,15 +1,15 @@
-import { createBodyType } from "../types/createBody.js";
 
 interface makeRequestPayload {
     url: string;
     headers: Record<string, string>;
-    body: Array<string> | Buffer<ArrayBuffer> | createBodyType;
+    body?: Buffer<ArrayBuffer> | string;
     method: "GET" | "POST" | "PATCH"
 }
 
 const baseHeaders = {
     "user-agent" : "Mozilla/5.0 (X11; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0",
     "referrer": "https://alexya.ai/generate-picture-new",
+    "origin": "https://alexya.ai",
     "accept": "*/*"
 }
 
@@ -20,9 +20,9 @@ export default async function makeRequest(payload: makeRequestPayload) {
         const Request = await fetch(payload.url, {
             method: payload.method,
             headers: headers,
-            body: JSON.stringify(payload.body)
+            body: payload.body
         });
-
+        
         const Response = await Request.json()
 
         return Response

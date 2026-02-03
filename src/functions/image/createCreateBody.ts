@@ -1,5 +1,5 @@
-import { createBodyType } from "../../types/createBody.js";
-import { createType } from "../../types/createType.js";
+import { createBodyType } from "../../types/createBody";
+import { createType } from "../../types/createType";
 
 export default function createCreateBody(payload: createType) {
     return {
