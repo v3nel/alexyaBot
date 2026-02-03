@@ -1,10 +1,10 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
-import ask, { askType } from "../functions/ask";
-import createAskEmbed from "../embeds/ask";
-import isCollectable from "../functions/isCollectable";
-import { createErrorEmbed, createSuccessEmbed } from "../embeds/common";
+import ask from "../functions/ask.js";
+import createAskEmbed from "../embeds/ask.js";
+import isCollectable from "../functions/isCollectable.js";
+import { createErrorEmbed, createSuccessEmbed } from "../embeds/common.js";
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName("askprompt")
         .setDescription("Test the prompt and attachments input"),

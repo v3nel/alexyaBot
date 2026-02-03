@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
-import { createInfoEmbed } from '../embeds/info';
+import { createInfoEmbed } from '../embeds/info.js';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName('info')
     .setDescription('Affiche des informations sur le bot'),

@@ -1,7 +1,6 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import fs from "fs/promises";
-import { createErrorEmbed } from "../embeds/common";
-import fetch from "node-fetch";
+import { createErrorEmbed } from "../embeds/common.js";
 
 export async function refresh(interaction: ChatInputCommandInteraction) {
     try {

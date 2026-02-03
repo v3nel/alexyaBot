@@ -8,25 +8,26 @@ dotenv.config();
 const commands: any[] = [];
 const commandsPath = path.join(__dirname, 'commands');
 
-// Charger toutes les commandes
-if (fs.existsSync(commandsPath)) {
-  const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.ts') || file.endsWith('.js'));
-
-  for (const file of commandFiles) {
-    const filePath = path.join(commandsPath, file);
-    const command = require(filePath);
-    
-    if ('data' in command && 'execute' in command) {
-      commands.push(command.data.toJSON());
-    }
-  }
-}
-
 // Déployer les commandes
 const rest = new REST().setToken(process.env.DISCORD_TOKEN!);
 
 (async () => {
   try {
+    // Charger toutes les commandes
+    if (fs.existsSync(commandsPath)) {
+      const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.ts') || file.endsWith('.js'));
+
+      for (const file of commandFiles) {
+        const filePath = path.join(commandsPath, file);
+        const commandModule = await import(filePath);
+        const command = commandModule.default || commandModule;
+        
+        if ('data' in command && 'execute' in command) {
+          commands.push(command.data.toJSON());
+        }
+      }
+    }
+
     console.log(`Déploiement de ${commands.length} commande(s) slash...`);
 
     const data: any = await rest.put(

@@ -1,5 +1,5 @@
-import { createBody } from "../../../types/createBody";
-import { createType } from "../../../types/createType";
+import { createBodyType } from "../../types/createBody.js";
+import { createType } from "../../types/createType.js";
 
 export default function createCreateBody(payload: createType) {
     return {
@@ -13,5 +13,5 @@ export default function createCreateBody(payload: createType) {
             images: payload.references ? payload.references : [],
             mode: payload.type
         }
-    } as createBody
+    } as createBodyType
 }

@@ -1,15 +1,10 @@
 import { AutocompleteInteraction, ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
-import createCookie from "../functions/create-cookie";
-import { createErrorEmbed, createLoadingEmbed } from "../embeds/common";
-import fetch, { Blob, FormData } from "node-fetch";
-import { IntegerSchema } from "zod/v4/core/json-schema.cjs";
-import { generatedImageEmbed } from "../embeds/image";
-import getPromptandAttachements from "../functions/image/inputs/getPromptandAttachment";
-import checkChannel from "../functions/checkChannel";
-import { processAttachment } from "../functions/image/processAttachment";
-import { parseRes } from "../functions/image/parseRes";
-import { createImage } from "../functions/image/createImage";
-import { createType } from "../types/createType";
+import getPromptandAttachements from "../functions/image/inputs/getPromptandAttachment.js";
+import checkChannel from "../functions/checkChannel.js";
+import { processAttachment } from "../functions/image/processAttachment.js";
+import { parseRes } from "../functions/image/parseRes.js";
+import { createImage } from "../functions/image/createImage.js";
+import { createType } from "../types/createType.js";
 
 type UploadResponse = { 
     success: boolean, 
@@ -49,7 +44,7 @@ type PollResponse = {
     thumbnailUrl?: string,
 }
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName("image")
         .setDescription("Crée une nouvelle image avec un contexte et/ou une image de référence")

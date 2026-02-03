@@ -1,8 +1,8 @@
-import makeRequest from "../../makeRequest";
-import { createType } from "../../../types/createType";
-import createCreateBody from "./createCreateBody";
-import createCookie from "../../create-cookie";
-import { responseCreationType } from "../../../types/responseCreationType";
+import makeRequest from "../makeRequest.js";
+import { createType } from "../../types/createType.js";
+import createCreateBody from "./createCreateBody.js";
+import createCookie from "../create-cookie.js";
+import { responseCreationType } from "../../types/responseCreationType.js";
 
 
 export default async function requestCreation(payload: createType) {

@@ -1,7 +1,7 @@
 import { Attachment, ChatInputCommandInteraction, DMChannel, EmbedBuilder, Message, TextChannel } from "discord.js";
-import { createErrorEmbed } from "../embeds/common";
-import Files from "../types/Files";
-import { askType } from "../types/askType";
+import { createErrorEmbed } from "../embeds/common.js";
+import Files from "../types/Files.js";
+import { askType } from "../types/askType.js";
 
 export default async function ask(userId: string, channel: TextChannel | DMChannel, question: EmbedBuilder, interaction: ChatInputCommandInteraction): Promise<askType | undefined> {
     await interaction.editReply({embeds: [question]});
