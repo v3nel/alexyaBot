@@ -1,5 +1,4 @@
-import fetch from "node-fetch";
-import { createBodyType } from "../types/createBody";
+import { createBodyType } from "../types/createBody.js";
 
 interface makeRequestPayload {
     url: string;

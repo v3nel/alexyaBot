@@ -1,5 +1,5 @@
-import downloadAttachment from "./downloadAttachment";
-import uploadAttachment from "./uploadAttachment";
+import downloadAttachment from "./downloadAttachment.js";
+import uploadAttachment from "./uploadAttachment.js";
 
 export async function processAttachment(attachment: string) {
     const buffer = await downloadAttachment(attachment); 

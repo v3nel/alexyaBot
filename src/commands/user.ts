@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder, GuildMember } from 'discord.js';
-import { createUserEmbed } from '../embeds/user';
+import { createUserEmbed } from '../embeds/user.js';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName('user')
     .setDescription('Affiche des informations sur un utilisateur')

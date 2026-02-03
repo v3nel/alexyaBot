@@ -15,24 +15,24 @@
   },
   "license": "ISC",
   "author": "venel",
-  "type": "commonjs",
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "dev": "ts-node src/index.ts",
-    "register": "ts-node src/deploy-commands.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "start": "bun dist/index.js",
+    "dev": "bun --watch src/index.ts",
+    "register": "bun src/deploy-commands.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "discord.js": "^14.25.1",
     "dotenv": "^17.2.3",
-    "node-fetch": "^3.3.2",
     "zod": "^4.3.5"
   },
   "devDependencies": {
     "@types/node": "^25.0.8",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
-  }
+    "typescript": "^5.9.3",
+    "@types/bun": "latest"
+  },
+  "private": true
 }

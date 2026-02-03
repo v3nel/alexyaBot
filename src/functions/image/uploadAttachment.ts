@@ -1,6 +1,5 @@
-import fetch, {Blob, FormData} from "node-fetch";
-import createCookie from "../../create-cookie";
-import makeRequest from "../../makeRequest";
+import createCookie from "../create-cookie.js";
+import makeRequest from "../makeRequest.js";
 
 type uploadResponseType = {
     success: boolean,

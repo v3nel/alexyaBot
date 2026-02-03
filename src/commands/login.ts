@@ -1,14 +1,14 @@
 import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import { createErrorEmbed, createSuccessEmbed } from "../embeds/common";
+import { createErrorEmbed, createSuccessEmbed } from "../embeds/common.js";
 import { z } from "zod";
-import { AuthenticationError, APIError, login } from "../functions/login";
+import { AuthenticationError, APIError, login } from "../functions/login.js";
 
 const loginSchema = z.object({
     email: z.email(),
     password: z.string().max(128, "Le mot de passe doit avoir une longueur inférieure a 128")
 });
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName("login")
         .setDescription("Login to your Alexya.ai account")

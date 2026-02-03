@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
-import { createErrorEmbed } from "../embeds/common";
+import { createErrorEmbed } from "../embeds/common.js";
 import fs from "fs/promises";
 
 export class APIError extends Error {

@@ -1,6 +1,6 @@
 import { Events, Guild } from 'discord.js';
 
-module.exports = {
+export default {
   name: Events.GuildCreate,
   execute(guild: Guild) {
     console.log(`✅ Bot ajouté au serveur: ${guild.name} (ID: ${guild.id})`);
