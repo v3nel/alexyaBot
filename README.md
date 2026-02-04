@@ -144,8 +144,6 @@ export default {
 
 ## 🐳 Docker
 
-Le projet inclut un Dockerfile optimisé pour Bun :
-
 ```bash
 # Construire l'image
 docker build -t alexyabot .
@@ -154,10 +152,3 @@ docker build -t alexyabot .
 docker run -d --env-file .env alexyabot
 ```
 
-## 📄 Licence
-
-ISC
-
-## 👤 Auteur
-
-venel
