@@ -15,7 +15,8 @@ export default async function requestCreation(payload: createType) {
         url: process.env.ALEXYA_API_URL + "/generate-picture",
         body: JSON.stringify(body),
         headers: {
-            cookie: cookie
+            cookie: cookie,
+            'Content-Type': 'application/json'
         },
         method: "POST"
     })

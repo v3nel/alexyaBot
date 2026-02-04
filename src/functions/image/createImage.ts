@@ -8,10 +8,15 @@ import { seedreamEdit } from "./requests/seedream-edit.js";
 export async function createImage(payload: createType) {
     const id = await postGeneratePicture(payload);
 
+    console.log('payload.references:', payload.references);
+    console.log('Has references:', payload.references && payload.references.length > 0);
+
     let task_id
-    if (payload.references) {
+    if (payload.references && payload.references.length > 0) {
+        console.log('🎨 Utilisation de seedreamEdit (avec image de référence)');
         task_id = await seedreamEdit(payload)
     } else {
+        console.log('🎨 Utilisation de seedreamCreate (sans image de référence)');
         task_id = await seedreamCreate(payload)
     }
 

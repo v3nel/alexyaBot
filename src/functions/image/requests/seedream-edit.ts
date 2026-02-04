@@ -24,16 +24,29 @@ export async function seedreamEdit(payload: createType) {
         images: payload.references
     };
 
+    console.log('📤 seedreamEdit body:', JSON.stringify(body, null, 2));
+
     const data = await makeRequest({
         method: "POST",
         url: process.env.ALEXYA_API_URL + "/seedream-edit",
         headers: {
-            'cookie': cookie
+            'cookie': cookie,
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({body})
+        body: JSON.stringify(body)
     }) as seedreamEditType
 
-    if (data.error) return;
+    console.log('📦 seedreamEdit réponse:', JSON.stringify(data, null, 2));
+    console.log('🔑 data.task_id:', data.task_id);
+    console.log('🔑 data.data?.id:', data.data?.id);
 
-    return data.task_id
+    if (data.error) {
+        console.error('❌ Erreur dans seedreamEdit:', data.error);
+        return;
+    }
+
+    const taskId = data.task_id || (data as any).taskId || data.data?.id;
+    console.log('✅ Task ID retourné:', taskId);
+    
+    return taskId
 }

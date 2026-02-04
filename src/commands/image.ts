@@ -95,13 +95,24 @@ export default {
             await interaction.editReply({embeds: [embed]})
 
             let attachmentsLinks: string[] = [];
-            if (PromptandAttachments.attachments) {
-                PromptandAttachments.attachments.forEach(async element => {
-                    const link = await processAttachment(element.url);
-                    if (!link) return;
-                    attachmentsLinks.push(link)
+            if (PromptandAttachments.attachments && PromptandAttachments.attachments.length > 0) {
+                console.log(`📎 ${PromptandAttachments.attachments.length} attachment(s) trouvé(s)`);
+                const uploadPromises = PromptandAttachments.attachments.map(async element => {
+                    const link = await processAttachment(element.url, element.type);
+                    return link;
                 });
-                payload.references = attachmentsLinks
+                const links = await Promise.all(uploadPromises);
+                attachmentsLinks = links.filter(link => link !== undefined) as string[];
+                console.log(`✅ ${attachmentsLinks.length} image(s) uploadée(s) avec succès:`, attachmentsLinks);
+                
+                if (attachmentsLinks.length > 0) {
+                    payload.references = attachmentsLinks;
+                    console.log('🔗 payload.references assigné:', payload.references);
+                } else {
+                    console.log('⚠️ Aucune image uploadée avec succès');
+                }
+            } else {
+                console.log('📎 Aucun attachment trouvé');
             }
             
             embed = createLoadingEmbed("Génération de l'image", "Votre image est en cours de génération et va vous etre délivré.")
@@ -109,7 +120,7 @@ export default {
             const image = await createImage(payload);
 
             if (typeof image !== "string") {
-                embed = createErrorEmbed("Erreur", "Il y a eu une erreur lors de la génération de votre image veuillez vous connecter sur Alexya.ai pour voir plus en détail");
+                embed = createErrorEmbed("Erreur", "Il y a eu une erreur lors de la génération de votre image. Veuillez réessayer ou vous connecter sur Alexya.ai pour plus de détails.");
                 await interaction.editReply({embeds: [embed]})
                 return
             }
@@ -118,7 +129,11 @@ export default {
             await interaction.editReply({embeds: [embed]})
             return
         } catch(e) {
-            const errorEmbed = createErrorEmbed("Erreur Inconue", `Il y a eu une erreur inconue lors de la génération ${e}`)
+            console.error('Erreur lors de l\'exécution de image:', e);
+            const errorMessage = e instanceof Error 
+                ? e.message.substring(0, 500)
+                : 'Erreur inconnue';
+            const errorEmbed = createErrorEmbed("Erreur", `Il y a eu une erreur: ${errorMessage}`);
             await interaction.editReply({embeds: [errorEmbed]})
         }
     },

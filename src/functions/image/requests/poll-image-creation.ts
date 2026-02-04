@@ -15,19 +15,28 @@ export async function pollImageCreation(payload: createType) {
     if (!cookie) return;
 
     const body = {
-        generationId: payload.id,
+        taskId: payload.task_id,
+        generationId: payload.id
     };
+
+    console.log(`Polling image creation with taskId: ${payload.task_id}, generationId: ${payload.id}`);
+    console.log(`URL: ${process.env.ALEXYA_API_URL}/poll-image-generation`);
+    console.log(`Body:`, JSON.stringify(body, null, 2));
 
     const data = await makeRequest({
         method: 'POST',
-        url: process.env.ALEXYA_API_URL + "/poll-image-creation",
+        url: process.env.ALEXYA_API_URL + "/poll-image-generation",
         headers: {
-            'cookie': cookie
+            'cookie': cookie,
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(body)
     }) as pollImageCreationType
 
-    if (data.error) return;
+    if (data.error) {
+        console.error('Erreur dans pollImageCreation:', data.error);
+        return;
+    }
 
     return data.outputUrl
 } 

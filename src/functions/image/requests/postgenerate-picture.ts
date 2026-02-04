@@ -48,7 +48,8 @@ export async function postGeneratePicture(payload: createType) {
         method: "POST",
         url: process.env.ALEXYA_API_URL + "/generate-picture",
         headers: {
-            'cookie': cookie
+            'cookie': cookie,
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(body)
     }) as postGeneratePictureResponseType

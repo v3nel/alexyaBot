@@ -51,7 +51,8 @@ export async function patchGeneratePicture(payload: createType) {
         method: "PATCH",
         url: process.env.ALEXYA_API_URL + "/generate-picture",
         headers: { 
-            'cookie': cookie
+            'cookie': cookie,
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(body)
     }) as patchGenerationPictureType

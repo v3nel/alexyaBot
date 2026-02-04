@@ -23,10 +23,28 @@ export default async function makeRequest(payload: makeRequestPayload) {
             body: payload.body
         });
         
+        // Vérifier si la réponse est OK
+        if (!Request.ok) {
+            const errorText = await Request.text();
+            // Tronquer le message d'erreur pour éviter les débordements
+            const truncatedError = errorText.length > 200 
+                ? errorText.substring(0, 200) + '...'
+                : errorText;
+            throw new Error(`HTTP Error ${Request.status}: ${truncatedError}`);
+        }
+
+        // Vérifier le type de contenu avant de parser
+        const contentType = Request.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const responseText = await Request.text();
+            throw new Error(`Expected JSON but got ${contentType}: ${responseText}`);
+        }
+        
         const Response = await Request.json()
 
         return Response
     } catch(e) {
-        console.error(e)
+        console.error('Erreur dans makeRequest:', e)
+        throw e; // Relancer l'erreur pour que l'appelant puisse la gérer
     }
 }

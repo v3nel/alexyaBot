@@ -41,6 +41,7 @@ export async function seedreamCreate(payload: createType) {
         url: process.env.ALEXYA_API_URL + "/seedream-create",
         headers: {
             "cookie": cookie,
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(body)
     }) as seedreamCreateType;
